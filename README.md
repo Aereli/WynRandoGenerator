@@ -8,6 +8,6 @@ from a given cohort. Currently, the cohort number is hardcoded and is currently 
 
 # Potential goals for the future
 
-- Input text bar that will let instructor the specific cohort number they wish to select from
+- Input text bar that will let an instructor pick the specific cohort number they wish to select from
 - Setup express backend with database to recreate api that we're currently calling from
 - Integrate with two truths and a lie project and display most recent submission on a UI
