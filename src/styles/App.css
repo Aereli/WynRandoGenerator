@@ -1,0 +1,23 @@
+.background {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(146deg, #626f62 0%, #5085a5 100%);
+}
+
+.student-container {
+  background-color: aliceblue;
+  padding: 10rem;
+  text-align: center;
+}
+
+.student-button {
+  outline: none;
+  font-size: 1.5rem;
+}
+
+.student {
+  padding: 2rem;
+  font-size: 2rem;
+}
