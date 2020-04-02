@@ -1,20 +1,47 @@
 import React from "react"
 import "../src/styles/App.css"
 import Students from "./utils/students"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 function App() {
   const [randomStudent, setRandomStudent] = useState("")
+  // const [stu, setStu] = useState(null)
+  const [allStu, setAllStu] = useState()
+  const [usedStudents, setUsedStudents] = useState([])
+
+  useEffect(() => {
+    console.log(usedStudents)
+  }, [usedStudents])
 
   const data = Students()
   if (!data) return <p>Loading...</p>
+  setAllStu(data.data)
+  console.log(allStu)
 
   function handleClick() {
-    const randomStudentNumber = Math.floor(Math.random() * data.data.length)
+    let randomStudentNumber
+    // setStu(data.data[randomStudentNumber])
+    let ifPresent = true
+    // const ifPresent = usedStudents.some(({ studentNumber }) => {
+    //   console.log(studentNumber === randomStudentNumber)
+    //   return studentNumber === randomStudentNumber
+    // })
+    while (ifPresent) {
+      randomStudentNumber = Math.floor(Math.random() * data.data.length)
+      ifPresent = usedStudents.some(({ studentNumber }) => {
+        console.log(studentNumber === randomStudentNumber)
+        return studentNumber === randomStudentNumber
+      })
+    }
+
     const studentFirstName = data.data[randomStudentNumber].firstName
     const studentLastName = data.data[randomStudentNumber].lastName
     setRandomStudent(studentFirstName + " " + studentLastName)
-    // console.log(data.data[0])
+
+    setUsedStudents([
+      ...usedStudents,
+      { studentNumber: randomStudentNumber, ...data.data[randomStudentNumber] }
+    ])
   }
 
   return (
