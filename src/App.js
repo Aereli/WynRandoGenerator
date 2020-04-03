@@ -6,7 +6,7 @@ import { useState, useEffect } from "react"
 function App() {
   const [randomStudent, setRandomStudent] = useState("")
   // const [stu, setStu] = useState(null)
-  const [allStu, setAllStu] = useState()
+  // const [allStu, setAllStu] = useState()
   const [usedStudents, setUsedStudents] = useState([])
 
   useEffect(() => {
@@ -15,33 +15,55 @@ function App() {
 
   const data = Students()
   if (!data) return <p>Loading...</p>
-  setAllStu(data.data)
-  console.log(allStu)
+  // setAllStu(data.data)
+  // console.log(allStu)
 
   function handleClick() {
-    let randomStudentNumber
-    // setStu(data.data[randomStudentNumber])
-    let ifPresent = true
+    // let ifPresent
+
+    const randomStudentNumber = Math.floor(Math.random() * data.data.length)
     // const ifPresent = usedStudents.some(({ studentNumber }) => {
     //   console.log(studentNumber === randomStudentNumber)
     //   return studentNumber === randomStudentNumber
     // })
-    while (ifPresent) {
-      randomStudentNumber = Math.floor(Math.random() * data.data.length)
-      ifPresent = usedStudents.some(({ studentNumber }) => {
-        console.log(studentNumber === randomStudentNumber)
-        return studentNumber === randomStudentNumber
-      })
-    }
 
-    const studentFirstName = data.data[randomStudentNumber].firstName
-    const studentLastName = data.data[randomStudentNumber].lastName
+    // *****************************
+
+    // while (ifPresent && data.data.lenght > 0) {
+    //   randomStudentNumber = Math.floor(Math.random() * data.data.length)
+    //   ifPresent = usedStudents.some(({ studentNumber }) => {
+    //     console.log(studentNumber === randomStudentNumber)
+    //     return studentNumber === randomStudentNumber
+    //   })
+    // }
+    // *****************************
+
+    if (data.data.length === 0) {
+      console.log("No more students")
+      setRandomStudent("No more students left!")
+      return
+    }
+    const studentsArray = data.data
+    console.log(studentsArray)
+    const studentChosen = data.data[randomStudentNumber]
+    studentsArray.splice(randomStudentNumber, 1)
+    console.log(randomStudentNumber, studentChosen)
+
+    const studentFirstName = studentChosen.firstName
+    const studentLastName = studentChosen.lastName
     setRandomStudent(studentFirstName + " " + studentLastName)
 
-    setUsedStudents([
-      ...usedStudents,
-      { studentNumber: randomStudentNumber, ...data.data[randomStudentNumber] }
-    ])
+    // *****************************
+
+    // const studentFirstName = data.data[randomStudentNumber].firstName
+    // // const studentLastName = data.data[randomStudentNumber].lastName
+
+    // setRandomStudent(studentFirstName + " " + studentLastName)
+
+    // setUsedStudents([
+    //   ...usedStudents,
+    //   { studentNumber: randomStudentNumber, ...data.data[randomStudentNumber] }
+    // ])
   }
 
   return (
