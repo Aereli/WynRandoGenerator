@@ -21,3 +21,7 @@
   padding: 2rem;
   font-size: 2rem;
 }
+
+.student-list {
+  overflow: scroll;
+}
