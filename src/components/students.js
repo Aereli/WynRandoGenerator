@@ -3,6 +3,15 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import StudentList from "./studentList"
 
+import { makeStyles } from "@material-ui/core/styles"
+import List from "@material-ui/core/List"
+import ListItem from "@material-ui/core/ListItem"
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction"
+import ListItemText from "@material-ui/core/ListItemText"
+import ListItemAvatar from "@material-ui/core/ListItemAvatar"
+import Checkbox from "@material-ui/core/Checkbox"
+import Avatar from "@material-ui/core/Avatar"
+
 const Students = () => {
   const [data, setData] = useState(null)
   const [randomStudent, setRandomStudent] = useState("")
@@ -41,6 +50,32 @@ const Students = () => {
     const studentFirstName = studentChosen.firstName
     const studentLastName = studentChosen.lastName
     setRandomStudent(studentFirstName + " " + studentLastName)
+    console.log("this is studen chosen", ...data)
+
+    // *****************************
+  }
+
+  const useStyles = makeStyles(theme => ({
+    root: {
+      width: "100%",
+      maxWidth: 360,
+      backgroundColor: theme.palette.background.paper
+    }
+  }))
+  const classes = useStyles()
+  const [checked, setChecked] = React.useState([1])
+
+  const handleToggle = value => () => {
+    const currentIndex = checked.indexOf(value)
+    const newChecked = [...checked]
+
+    if (currentIndex === -1) {
+      newChecked.push(value)
+    } else {
+      newChecked.splice(currentIndex, 1)
+    }
+
+    setChecked(newChecked)
   }
 
   return (
@@ -53,9 +88,35 @@ const Students = () => {
         <div className="student">{randomStudent}</div>
       </div>
       <div>
-        {data ? data.map(stu => <p>{stu.firstName}</p>) : <p>loading.. </p>}
+        {/* {data ? data.map(stu => <p>{stu.firstName}</p>) : <p>loading.. </p>} */}
       </div>
       <StudentList />
+
+      <List dense className={classes.root}>
+        {data ? (
+          data.map(stu => {
+            const labelId = `checkbox-list-secondary-label-${stu.imageUrl}`
+            return (
+              <ListItem key={stu.imageUrl} button>
+                <ListItemAvatar>
+                  <Avatar alt={`Avatar n°${stu.imageUrl}`} src={stu.imageUrl} />
+                </ListItemAvatar>
+                <ListItemText id={labelId} primary={stu.firstName} />
+                <ListItemSecondaryAction>
+                  <Checkbox
+                    edge="end"
+                    onChange={handleToggle(stu.imageUrl)}
+                    checked={checked.indexOf(stu.imageUrl) !== -1}
+                    inputProps={{ "aria-labelledby": labelId }}
+                  />
+                </ListItemSecondaryAction>
+              </ListItem>
+            )
+          })
+        ) : (
+          <p>loading.. </p>
+        )}
+      </List>
     </div>
   )
 }

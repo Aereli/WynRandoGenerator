@@ -1,12 +1,9 @@
 import React from "react"
 // import { useState, useEffect } from "react"
+// import axios from "axios"
 
 const StudentList = () => {
-  return (
-    <div>
-      <p>this will be the student list table</p>
-    </div>
-  )
+  return <></>
 }
 
 export default StudentList
