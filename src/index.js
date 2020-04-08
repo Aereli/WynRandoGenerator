@@ -3,6 +3,7 @@ import ReactDOM from "react-dom"
 import "../src/styles/index.css"
 import App from "./App"
 import * as serviceWorker from "./serviceWorker"
+import "./fonts/Rajdhani-Regular.ttf"
 
 ReactDOM.render(
   <React.StrictMode>

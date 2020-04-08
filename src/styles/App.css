@@ -3,20 +3,38 @@
   height: 100vh;
   display: flex;
   justify-content: center;
-  background: linear-gradient(146deg, #626f62 0%, #5085a5 100%);
+  /* background: linear-gradient(146deg, #626f62 0%, #5085a5 100%); */
+}
+
+.wyncode-logo {
+  width: 500px;
+}
+.wyncode-header {
+  color: #d6d6d6;
 }
 
 .student-container {
-  background-color: aliceblue;
+  position: relative;
+  background-color: #1d345e;
   padding: 10rem;
   text-align: center;
 }
 
 .student-button {
+  font-family: "Rajdhani";
+
   outline: none;
   font-size: 1.5rem;
+  background-color: #3db5ea;
+  color: white;
+  border: none;
 }
 
+.student-button:hover {
+  cursor: pointer;
+  background-color: #1c335f;
+  color: #3db5ea;
+}
 .student {
   padding: 2rem;
   font-size: 2rem;
@@ -27,4 +45,19 @@
   width: 200px;
   height: 100vh;
   background-color: white;
+}
+
+.student-list-header {
+  text-align: center;
+}
+
+.triangle {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-top: 500px solid transparent;
+  border-right: 500px solid transparent;
+  border-bottom: 500px solid #a7d6f2;
 }
