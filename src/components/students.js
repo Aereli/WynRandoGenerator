@@ -18,15 +18,18 @@ const Students = () => {
   const [studentArray, setStudentArray] = useState([])
   const [loading, setLoading] = useState(false)
   const [isError, setIsError] = useState(false)
+  const [checked, setChecked] = React.useState([1])
+
+  const [studentIsChecked, setStudentIsChecked] = useState(null)
 
   useEffect(() => {
-    console.log("fetching data!")
+    // console.log("fetching data!")
     setIsError(false)
     setLoading(true)
     axios
       .get("https://wynpics.herokuapp.com/cohorts/36")
       .then(res => {
-        console.log("this is fetching", res)
+        // console.log("this is fetching", res)
         setData(res.data)
         setLoading(false)
       })
@@ -37,20 +40,26 @@ const Students = () => {
 
   function handleClick() {
     const randomStudentNumber = Math.floor(Math.random() * data.length)
-
-    if (data.length === 0) {
-      setRandomStudent("No more students left!")
-      return
-    }
     setStudentArray(data)
     const studentChosen = data[randomStudentNumber]
-    studentArray.splice(randomStudentNumber, 1)
-    // console.log(randomStudentNumber, studentChosen)
-
+    const currentIndex = checked.indexOf(studentChosen.imageUrl)
     const studentFirstName = studentChosen.firstName
     const studentLastName = studentChosen.lastName
     setRandomStudent(studentFirstName + " " + studentLastName)
-    console.log("this is studen chosen", ...data)
+
+    if (currentIndex <= 0) {
+      studentArray.splice(randomStudentNumber, 1)
+    } else if (currentIndex >= 0) {
+      console.log("student absent")
+      setRandomStudent(`${randomStudent} is marked as absent!`)
+      return
+    } else if (data.length === 0) {
+      setRandomStudent("No more students left!")
+      return
+    }
+
+    console.log(currentIndex)
+    // console.log(randomStudentNumber, studentChosen)
 
     // *****************************
   }
@@ -62,20 +71,26 @@ const Students = () => {
       backgroundColor: theme.palette.background.paper
     }
   }))
+
+  //this is Material UI styling
   const classes = useStyles()
-  const [checked, setChecked] = React.useState([1])
 
   const handleToggle = value => () => {
-    const currentIndex = checked.indexOf(value)
+    const valueId = value.imageUrl
+    const currentIndex = checked.indexOf(valueId)
     const newChecked = [...checked]
 
+    console.log("new checked: ", checked)
+
     if (currentIndex === -1) {
-      newChecked.push(value)
+      newChecked.push(valueId)
+      console.log("true: ", newChecked)
     } else {
       newChecked.splice(currentIndex, 1)
+      console.log("false: ", newChecked)
     }
-
     setChecked(newChecked)
+    // console.log("this thing: ", checked)
   }
 
   return (
@@ -91,6 +106,7 @@ const Students = () => {
         {/* {data ? data.map(stu => <p>{stu.firstName}</p>) : <p>loading.. </p>} */}
       </div>
       <div className="student-list">
+        <h2>Check off student if absent</h2>
         <List dense className={classes.root}>
           {data ? (
             data.map(stu => {
@@ -110,8 +126,9 @@ const Students = () => {
                   />
                   <ListItemSecondaryAction>
                     <Checkbox
+                      type="checkbox"
                       edge="end"
-                      onChange={handleToggle(stu.imageUrl)}
+                      onChange={handleToggle(stu)}
                       checked={checked.indexOf(stu.imageUrl) !== -1}
                       inputProps={{ "aria-labelledby": labelId }}
                     />
