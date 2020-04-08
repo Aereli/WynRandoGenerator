@@ -21,20 +21,16 @@ const Students = () => {
   const [isError, setIsError] = useState(false)
   const [checked, setChecked] = React.useState([1])
 
-  const [studentIsChecked, setStudentIsChecked] = useState(null)
-
   useEffect(() => {
-    // console.log("fetching data!")
     setIsError(false)
     setLoading(true)
     axios
       .get("https://wynpics.herokuapp.com/cohorts/36")
       .then(res => {
-        // console.log("this is fetching", res)
         setData(res.data)
         setLoading(false)
       })
-      .catch(err => setIsError(err))
+      .catch(err => setIsError(err), isError)
   }, [])
 
   // *****************************
@@ -51,16 +47,12 @@ const Students = () => {
     if (currentIndex <= 0) {
       studentArray.splice(randomStudentNumber, 1)
     } else if (currentIndex >= 0) {
-      console.log("student absent")
       setRandomStudent(`${randomStudent} is marked as absent!`)
       return
     } else if (data.length === 0) {
       setRandomStudent("No more students left!")
       return
     }
-
-    console.log(currentIndex)
-    // console.log(randomStudentNumber, studentChosen)
 
     // *****************************
   }
@@ -81,17 +73,12 @@ const Students = () => {
     const currentIndex = checked.indexOf(valueId)
     const newChecked = [...checked]
 
-    console.log("new checked: ", checked)
-
     if (currentIndex === -1) {
       newChecked.push(valueId)
-      console.log("true: ", newChecked)
     } else {
       newChecked.splice(currentIndex, 1)
-      console.log("false: ", newChecked)
     }
     setChecked(newChecked)
-    // console.log("this thing: ", checked)
   }
 
   return (
