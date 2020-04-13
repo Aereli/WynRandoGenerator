@@ -99,24 +99,24 @@ const Students = () => {
 
   return (
     <div className="background">
-      <div className="student-container">
+      <div className="blue-back">
         <div className="triangle"></div>
-        <div>
-          <img
-            className="wyncode-logo"
-            src={WyncodeHeader}
-            alt="wyncode-logo"
-          ></img>
+        <div className="student-container">
+          <div>
+            <img
+              className="wyncode-logo"
+              src={WyncodeHeader}
+              alt="wyncode-logo"
+            ></img>
+          </div>
+          <h1 className="wyncode-header">Random Student Generator!</h1>
+          <button className="student-button" onClick={handleClick}>
+            Generate Random Student
+          </button>
+          <div className="student">{randomStudent}</div>
         </div>
-        <h1 className="wyncode-header">Random Student Generator!</h1>
-        <button className="student-button" onClick={handleClick}>
-          Generate Random Student
-        </button>
-        <div className="student">{randomStudent}</div>
       </div>
-      <div>
-        {/* {data ? data.map(stu => <p>{stu.firstName}</p>) : <p>loading.. </p>} */}
-      </div>
+
       <div className="student-list">
         <h2 className="student-list-header">Absent Students</h2>
         <List dense className={classes.root}>

@@ -3,7 +3,6 @@
   height: 100vh;
   display: flex;
   justify-content: center;
-  /* background: linear-gradient(146deg, #626f62 0%, #5085a5 100%); */
 }
 
 .wyncode-logo {
@@ -13,11 +12,16 @@
   color: #d6d6d6;
 }
 
-.student-container {
-  position: relative;
+.blue-back {
   background-color: #1d345e;
+  position: relative;
+}
+
+.student-container {
+  /* background-color: #1d345e; */
   padding: 10rem;
   text-align: center;
+  z-index: 2;
 }
 
 .student-button {
@@ -38,6 +42,7 @@
 .student {
   padding: 2rem;
   font-size: 2rem;
+  color: white;
 }
 
 .student-list {
@@ -55,9 +60,10 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 0;
-  height: 0;
-  border-top: 500px solid transparent;
   border-right: 500px solid transparent;
   border-bottom: 500px solid #a7d6f2;
+  background-clip: border-box;
+  width: 0;
+  height: 0;
+  z-index: 1;
 }
