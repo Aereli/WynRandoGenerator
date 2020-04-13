@@ -26,11 +26,11 @@ const Students = () => {
     setLoading(true)
     axios
       .get("https://wynpics.herokuapp.com/cohorts/36")
-      .then(res => {
+      .then((res) => {
         setData(res.data)
         setLoading(false)
       })
-      .catch(err => setIsError(err), isError)
+      .catch((err) => setIsError(err), isError)
   }, [])
 
   // *****************************
@@ -39,36 +39,52 @@ const Students = () => {
     const randomStudentNumber = Math.floor(Math.random() * data.length)
     setStudentArray(data)
     const studentChosen = data[randomStudentNumber]
-    const currentIndex = checked.indexOf(studentChosen.imageUrl)
-    const studentFirstName = studentChosen.firstName
-    const studentLastName = studentChosen.lastName
-    setRandomStudent(studentFirstName + " " + studentLastName)
+    const currentIndex = checked.indexOf(studentChosen)
+
+    // if (currentIndex <= 0) {
+    //   studentArray.splice(randomStudentNumber, 1)
+    // } else if (currentIndex >= 0) {
+    //   setRandomStudent(`${randomStudent} is marked as absent!`)
+    //   return
+    // } else if (data.length === 0) {
+    //   setRandomStudent("No more students left!")
+    //   return
+    // }
+    console.log(data.length)
+    console.log(currentIndex)
+    // if (data.length === 0) {
+    if (data.length === 0) {
+      setRandomStudent("No more students left!")
+      // setData(null)
+    }
 
     if (currentIndex <= 0) {
       studentArray.splice(randomStudentNumber, 1)
     } else if (currentIndex >= 0) {
       setRandomStudent(`${randomStudent} is marked as absent!`)
       return
-    } else if (data.length === 0) {
-      setRandomStudent("No more students left!")
-      return
     }
-
+    if (data.length !== 0) {
+      const studentFirstName = studentChosen.firstName
+      const studentLastName = studentChosen.lastName
+      setRandomStudent(studentFirstName + " " + studentLastName)
+      console.log(studentChosen.firstName)
+    }
     // *****************************
   }
 
-  const useStyles = makeStyles(theme => ({
+  const useStyles = makeStyles((theme) => ({
     root: {
       width: "100%",
       maxWidth: 360,
-      backgroundColor: theme.palette.background.paper
-    }
+      backgroundColor: theme.palette.background.paper,
+    },
   }))
 
   //this is Material UI styling
   const classes = useStyles()
 
-  const handleToggle = value => () => {
+  const handleToggle = (value) => () => {
     const valueId = value.imageUrl
     const currentIndex = checked.indexOf(valueId)
     const newChecked = [...checked]
@@ -105,7 +121,7 @@ const Students = () => {
         <h2 className="student-list-header">Absent Students</h2>
         <List dense className={classes.root}>
           {data ? (
-            data.map(stu => {
+            data.map((stu) => {
               const labelId = `checkbox-list-secondary-label-${stu.imageUrl}`
               return (
                 <ListItem key={stu.imageUrl} button>
