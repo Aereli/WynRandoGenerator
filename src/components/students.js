@@ -39,36 +39,30 @@ const Students = () => {
     const randomStudentNumber = Math.floor(Math.random() * data.length)
     setStudentArray(data)
     const studentChosen = data[randomStudentNumber]
-    const currentIndex = checked.indexOf(studentChosen)
+    const currentIndex = checked.indexOf(studentChosen.imageUrl)
 
-    // if (currentIndex <= 0) {
-    //   studentArray.splice(randomStudentNumber, 1)
-    // } else if (currentIndex >= 0) {
-    //   setRandomStudent(`${randomStudent} is marked as absent!`)
-    //   return
-    // } else if (data.length === 0) {
-    //   setRandomStudent("No more students left!")
-    //   return
-    // }
-    console.log(data.length)
-    console.log(currentIndex)
+    // // if (data.length === 0) {
     // if (data.length === 0) {
-    if (data.length === 0) {
-      setRandomStudent("No more students left!")
-      // setData(null)
-    }
+    //   setRandomStudent("No more students left!")
+    //   // setData(null)
+    // }
 
     if (currentIndex <= 0) {
       studentArray.splice(randomStudentNumber, 1)
     } else if (currentIndex >= 0) {
       setRandomStudent(`${randomStudent} is marked as absent!`)
       return
+    } else if (!currentIndex) {
+      setRandomStudent("none")
     }
+
     if (data.length !== 0) {
       const studentFirstName = studentChosen.firstName
       const studentLastName = studentChosen.lastName
       setRandomStudent(studentFirstName + " " + studentLastName)
       console.log(studentChosen.firstName)
+    } else if (data.length === 0) {
+      setRandomStudent("ran out of student")
     }
     // *****************************
   }
