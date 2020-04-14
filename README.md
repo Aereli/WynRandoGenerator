@@ -7,7 +7,7 @@
 The goal of this project is to give the instructors at Wyncode a way to randomly select a student
 from a given cohort. Currently, the cohort number is hardcoded and is currently set at c36.
 
-![Current Project](/public/Wyncode.png)
+![Current Project](./src/styles/Wyncode.png)
 
 # Potential goals for the future
 
