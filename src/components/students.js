@@ -14,51 +14,45 @@ import Checkbox from "@material-ui/core/Checkbox"
 import Avatar from "@material-ui/core/Avatar"
 
 const Students = () => {
-  const [data, setData] = useState(null)
+  const [studentData, setStudentData] = useState(null)
   const [randomStudent, setRandomStudent] = useState("")
   const [studentArray, setStudentArray] = useState([])
-  const [loading, setLoading] = useState(false)
   const [isError, setIsError] = useState(false)
-  const [checked, setChecked] = React.useState([1])
+  const [checked, setChecked] = React.useState([])
   const [disabled, setDisabled] = React.useState(false)
 
   useEffect(() => {
     setIsError(false)
-    setLoading(true)
     axios
       .get("https://wynpics.herokuapp.com/cohorts/36")
-      .then((res) => {
-        setData(res.data)
-        setLoading(false)
+      .then(({ data }) => {
+        setStudentArray(data)
+        setStudentData(data)
       })
-      .catch((err) => setIsError(err), isError)
+      .catch(err => setIsError(err), isError)
   }, [])
 
   // *****************************
 
   function handleClick() {
-    const randomStudentNumber = Math.floor(Math.random() * data.length)
-    setStudentArray(data)
-    const studentChosen = data[randomStudentNumber]
-    const currentIndex = checked.indexOf(studentChosen.imageUrl)
-
-    console.log(disabled)
-    if (data.length !== 0 && currentIndex <= 0) {
-      const studentFirstName = studentChosen.firstName
-      const studentLastName = studentChosen.lastName
-      studentArray.splice(randomStudentNumber, 1)
-
-      setRandomStudent(studentFirstName + " " + studentLastName)
-      console.log(studentChosen.firstName)
-      console.log("current index:", currentIndex)
-      console.log("datalenght:", data.length)
-    } else if (data.length !== 0 && currentIndex >= 0) {
-      setRandomStudent(`${randomStudent} is marked as absent!`)
-    }
-
-    if (data.length === 0) {
+    if (studentArray.length === 0) {
       setRandomStudent("No more students!")
       setDisabled(true)
+      return;
+    }
+
+    const randomStudentNumber = Math.floor(Math.random() * studentArray.length)
+    const { imageUrl, firstName, lastName } = studentArray[randomStudentNumber]
+    const name = firstName + " " + lastName
+    const currentIndex = checked.indexOf(imageUrl)
+
+    if (studentArray.length !== 0 && currentIndex < 0) {
+      setStudentArray(studentArray.filter( student => student.imageUrl !== imageUrl))
+
+      setRandomStudent(name)
+
+    } else if (studentArray.length !== 0 && currentIndex >= 0) {
+      setRandomStudent(`${name} is marked as absent!`)
     }
   }
 
@@ -76,14 +70,14 @@ const Students = () => {
   const handleToggle = (value) => () => {
     const valueId = value.imageUrl
     const currentIndex = checked.indexOf(valueId)
-    const newChecked = [...checked]
+
+    console.log(checked)
 
     if (currentIndex === -1) {
-      newChecked.push(valueId)
+      setChecked([...checked, valueId])
     } else {
-      newChecked.splice(currentIndex, 1)
+      setChecked(checked.filter( id => id !== valueId ))
     }
-    setChecked(newChecked)
   }
 
   return (
@@ -113,8 +107,8 @@ const Students = () => {
       <div className="student-list">
         <h2 className="student-list-header">Absent Students</h2>
         <List dense className={classes.root}>
-          {data ? (
-            data.map((stu) => {
+          {studentArray.length ? (
+            studentArray.map((stu) => {
               const labelId = `checkbox-list-secondary-label-${stu.imageUrl}`
               return (
                 <ListItem key={stu.imageUrl} button>
