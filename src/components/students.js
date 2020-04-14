@@ -20,6 +20,7 @@ const Students = () => {
   const [loading, setLoading] = useState(false)
   const [isError, setIsError] = useState(false)
   const [checked, setChecked] = React.useState([1])
+  const [disabled, setDisabled] = React.useState(false)
 
   useEffect(() => {
     setIsError(false)
@@ -41,30 +42,24 @@ const Students = () => {
     const studentChosen = data[randomStudentNumber]
     const currentIndex = checked.indexOf(studentChosen.imageUrl)
 
-    // // if (data.length === 0) {
-    // if (data.length === 0) {
-    //   setRandomStudent("No more students left!")
-    //   // setData(null)
-    // }
-
-    if (currentIndex <= 0) {
-      studentArray.splice(randomStudentNumber, 1)
-    } else if (currentIndex >= 0) {
-      setRandomStudent(`${randomStudent} is marked as absent!`)
-      return
-    } else if (!currentIndex) {
-      setRandomStudent("none")
-    }
-
-    if (data.length !== 0) {
+    console.log(disabled)
+    if (data.length !== 0 && currentIndex <= 0) {
       const studentFirstName = studentChosen.firstName
       const studentLastName = studentChosen.lastName
+      studentArray.splice(randomStudentNumber, 1)
+
       setRandomStudent(studentFirstName + " " + studentLastName)
       console.log(studentChosen.firstName)
-    } else if (data.length === 0) {
-      setRandomStudent("ran out of student")
+      console.log("current index:", currentIndex)
+      console.log("datalenght:", data.length)
+    } else if (data.length !== 0 && currentIndex >= 0) {
+      setRandomStudent(`${randomStudent} is marked as absent!`)
     }
-    // *****************************
+
+    if (data.length === 0) {
+      setRandomStudent("No more students!")
+      setDisabled(true)
+    }
   }
 
   const useStyles = makeStyles((theme) => ({
@@ -104,7 +99,11 @@ const Students = () => {
             ></img>
           </div>
           <h1 className="wyncode-header">Random Student Generator!</h1>
-          <button className="student-button" onClick={handleClick}>
+          <button
+            className="student-button"
+            onClick={handleClick}
+            disabled={disabled}
+          >
             Generate Random Student
           </button>
           <div className="student">{randomStudent}</div>

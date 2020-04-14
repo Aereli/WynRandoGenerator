@@ -39,6 +39,10 @@
   background-color: #1c335f;
   color: #3db5ea;
 }
+.student-button:disabled {
+  background-color: #5f1c22;
+}
+
 .student {
   padding: 2rem;
   font-size: 2rem;
