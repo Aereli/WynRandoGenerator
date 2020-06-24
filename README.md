@@ -1,4 +1,5 @@
 # Wyncode Random Student Generator
+https://wyn-generator.netlify.app/
 
 - yarn start
 
